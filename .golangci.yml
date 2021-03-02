@@ -1,0 +1,133 @@
+run:
+  deadline: 30m
+  tests: true
+
+linters:
+  enable-all: false
+  enable:
+    - depguard
+    - dupl
+    - gochecknoglobals
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - golint
+    - gosec
+    - interfacer
+    - lll
+    - maligned
+    - misspell
+    - nakedret
+    - prealloc
+    - scopelint
+    - unconvert
+    - unparam
+    - nestif
+    - funlen
+
+linters-settings:
+  depguard:
+    list-type: blacklist
+  dupl:
+    threshold: 100
+  gocyclo:
+    min-complexity: 12
+  nestif:
+    min-complexity: 6
+  goconst:
+    min-len: 3
+    min-occurrences: 4
+  gocritic:
+    enabled-checks:
+      - appendCombine
+      - argOrder
+      - assignOp
+      - badCond
+      - boolExprSimplify
+      - builtinShadow
+      - captLocal
+      - caseOrder
+      - codegenComment
+      - commentedOutCode
+      - commentedOutImport
+      - defaultCaseOrder
+      - deprecatedComment
+      - docStub
+      - dupArg
+      - dupBranchBody
+      - dupCase
+      - dupSubExpr
+      - elseif
+      - emptyFallthrough
+      - equalFold
+      - flagDeref
+      - flagName
+      - hexLiteral
+      - indexAlloc
+      - initClause
+      - methodExprCall
+      - nilValReturn
+      - octalLiteral
+      - offBy1
+      - rangeExprCopy
+      - regexpMust
+      - sloppyLen
+      - stringXbytes
+      - switchTrue
+      - typeAssertChain
+      - typeSwitchVar
+      - typeUnparen
+      - underef
+      - unlambda
+      - unnecessaryBlock
+      - unslice
+      - valSwap
+      - weakCond
+      - yodaStyleExpr
+      # Unused
+      # - appendAssign
+      # - commentFormatting
+      # - emptyStringTest
+      # - exitAfterDefer
+      # - ifElseChain
+      # - hugeParam
+      # - importShadow
+      # - nestingReduce
+      # - paramTypeCombine
+      # - ptrToRefParam
+      # - rangeValCopy
+      # - singleCaseSwitch
+      # - sloppyReassign
+      # - unlabelStmt
+      # - unnamedResult
+      # - wrapperFunc
+  gofmt:
+    simplify: true
+  goimports:
+    local-prefixes: github.com/sergiorra/hexagonal-arch-api-go
+  golint:
+    min-confidence: 0.80
+  lll:
+    line-length: 120
+    tab-width: 1
+  maligned:
+    suggest-new: true
+  misspell:
+    locale: US
+  ignore-words:
+    - someword
+  nakedret:
+    max-func-lines: 30
+  prealloc:
+    simple: true
+    range-loops: true
+    for-loops: false
+  unparam:
+    algo: cha
+    check-exported: false
+  funlen:
+    lines: 65
+    statements: 40
