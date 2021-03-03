@@ -2,8 +2,10 @@ package server
 
 import (
 	"fmt"
+	mooc "github.com/sergiorra/hexagonal-arch-api-go/internal"
 	"log"
 
+	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/handler/courses"
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/handler/health"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +14,17 @@ import (
 type Server struct {
 	httpAddr string
 	engine   *gin.Engine
+
+	// deps
+	courseRepository mooc.CourseRepository
 }
 
-func New(host string, port uint) Server {
+func New(host string, port uint, courseRepository mooc.CourseRepository) Server {
 	srv := Server{
 		engine:   gin.New(),
 		httpAddr: fmt.Sprintf("%s:%d", host, port),
+
+		courseRepository: courseRepository,
 	}
 
 	srv.registerRoutes()
@@ -31,4 +38,5 @@ func (s *Server) Run() error {
 
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.CheckHandler())
+	s.engine.POST("/courses", courses.CreateHandler(s.courseRepository))
 }
