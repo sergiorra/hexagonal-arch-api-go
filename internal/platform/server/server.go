@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
-	mooc "github.com/sergiorra/hexagonal-arch-api-go/internal"
 	"log"
 
+	mooc "github.com/sergiorra/hexagonal-arch-api-go/internal"
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/handler/courses"
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/handler/health"
 
