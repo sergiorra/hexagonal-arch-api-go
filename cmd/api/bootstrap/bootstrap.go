@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/creating"
+	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/bus/inmemory"
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server"
 	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/storage/mysql"
 
@@ -15,11 +16,11 @@ const (
 	host = "localhost"
 	port = 8080
 
-	dbUser = "test"
-	dbPass = "test"
+	dbUser = "codely"
+	dbPass = "codely"
 	dbHost = "localhost"
 	dbPort = "3306"
-	dbName = "test"
+	dbName = "codely"
 )
 
 func Run() error {
@@ -29,10 +30,17 @@ func Run() error {
 		return err
 	}
 
+	var (
+		commandBus = inmemory.NewCommandBus()
+	)
+
 	courseRepository := mysql.NewCourseRepository(db)
 
 	creatingCourseService := creating.NewCourseService(courseRepository)
 
-	srv := server.New(host, port, creatingCourseService)
+	createCourseCommandHandler := creating.NewCourseCommandHandler(creatingCourseService)
+	commandBus.Register(creating.CourseCommandType, createCourseCommandHandler)
+
+	srv := server.New(host, port, commandBus)
 	return srv.Run()
 }
