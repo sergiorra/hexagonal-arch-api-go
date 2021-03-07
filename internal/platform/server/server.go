@@ -3,6 +3,8 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/middleware/logging"
+	"github.com/sergiorra/hexagonal-arch-api-go/internal/platform/server/middleware/recovery"
 	"log"
 	"net/http"
 	"os"
@@ -28,7 +30,7 @@ type Server struct {
 
 func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, commandBus command.Bus) (context.Context, Server) {
 	srv := Server{
-		engine:   gin.New(),
+		engine:   gin.New(), // gin.Default() already has a recovery and logging middlewares implemented
 		httpAddr: fmt.Sprintf("%s:%d", host, port),
 
 		shutdownTimeout: shutdownTimeout,
@@ -41,6 +43,8 @@ func New(ctx context.Context, host string, port uint, shutdownTimeout time.Durat
 }
 
 func (s *Server) registerRoutes() {
+	s.engine.Use(recovery.Middleware(), logging.Middleware())
+
 	s.engine.GET("/health", health.CheckHandler())
 	s.engine.POST("/courses", courses.CreateHandler(s.commandBus))
 }
