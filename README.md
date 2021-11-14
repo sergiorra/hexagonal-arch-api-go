@@ -1,2 +1,2 @@
 # hexagonal-arch-api-go
-Golang API following Hexagonal Architecture
+Golang API using Hexagonal Architecture
